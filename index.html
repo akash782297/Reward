@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get ₹20 Instantly! - Reward Campaign</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-blue: #4A90E2;
+            --secondary-green: #2ecc71;
+            --accent-yellow: #f1c40f;
+            --bg-gradient: linear-gradient(135deg, #4A90E2, #7B68EE);
+            --card-bg: rgba(255, 255, 255, 0.2);
+            --text-color: #fff;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 16px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-section {
+            padding: 40px 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 10px;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-section p {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        /* Coin animation background */
+        .coin {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-yellow);
+            border-radius: 50%;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2), 0 0 10px rgba(241, 196, 15, 0.6);
+            animation: float 8s infinite ease-in-out;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .coin:nth-child(1) { top: 10%; left: 5%; animation-duration: 9s; width: 25px; height: 25px; }
+        .coin:nth-child(2) { top: 20%; left: 70%; animation-duration: 7s; width: 35px; height: 35px; }
+        .coin:nth-child(3) { top: 40%; left: 30%; animation-duration: 10s; }
+        .coin:nth-child(4) { top: 60%; left: 85%; animation-duration: 6s; width: 20px; height: 20px; }
+        .coin:nth-child(5) { top: 80%; left: 15%; animation-duration: 8s; }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        /* Task Section */
+        .tasks-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+        
+        .task-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .task-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .task-icon {
+            font-size: 1.2rem;
+            margin-right: 15px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .task-icon.complete {
+            color: var(--secondary-green);
+            background: #e6f7ee;
+        }
+        
+        .task-icon.pending {
+            color: var(--accent-yellow);
+            background: #fff8e1;
+        }
+        
+        .task-icon.locked {
+            color: #ccc;
+            background: #f0f0f0;
+        }
+
+        .task-content {
+            flex-grow: 1;
+            text-align: left;
+        }
+        
+        .task-content h3 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .task-button {
+            background-color: #fff;
+            color: var(--primary-blue);
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .task-button:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .task-button[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--secondary-green);
+            border-radius: 5px;
+            transition: width 0.8s ease-in-out;
+            box-shadow: 0 0 10px var(--secondary-green);
+        }
+        
+        /* CTA Button */
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--secondary-green);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            background: #27ae60;
+        }
+        
+        .cta-button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Extra Engagement */
+        .live-counter, .timer {
+            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            margin-bottom: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .timer {
+            color: var(--accent-yellow);
+        }
+
+        .live-counter span {
+            color: var(--secondary-green);
+        }
+        
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            font-size: 0.9rem;
+        }
+
+        /* Reward Page Styles */
+        #reward-page {
+            display: none;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        #reward-page h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        #reward-page p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .reward-steps-card {
+            background: #ecf0f3;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 8px 8px 15px #c8d0e7, -8px -8px 15px #ffffff;
+            color: #333;
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .step-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .step-number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary-green);
+            background-color: #fff;
+            border: 2px solid var(--secondary-green);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+        }
+        
+        .step-text {
+            flex-grow: 1;
+            font-weight: 500;
+        }
+
+        .blinking-text {
+            animation: blink 1s steps(1, start) infinite;
+            font-weight: 600;
+            margin-top: 20px;
+            color: var(--accent-yellow);
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .claim-button {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--secondary-green);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+            transition: transform 0.3s ease;
+            margin-top: 25px;
+        }
+        
+        .claim-button:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        #closed-message {
+            display: none;
+            padding: 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: var(--border-radius);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-landing">
+        <div class="coin"></div>
+        <div class="coin"></div>
+        <div class="coin"></div>
+        <div class="coin"></div>
+        <div class="coin"></div>
+
+        <div class="hero-section">
+            <h1><i class="fas fa-gift"></i> Get ₹20 Instantly!</h1>
+            <p>Complete simple tasks and unlock your reward.</p>
+        </div>
+
+        <div class="tasks-section">
+            <div class="task-card" id="task1-card">
+                <div class="task-icon locked" id="task1-icon"><i class="fas fa-lock"></i></div>
+                <div class="task-content">
+                    <h3>Step 1: Follow on Instagram</h3>
+                </div>
+                <a href="https://www.instagram.com/undermaintnance?igsh=bmx3NDV2eGlsYjY2" target="_blank" class="task-button" id="task1-button">Follow Now</a>
+            </div>
+            
+            <div class="task-card" id="task2-card">
+                <div class="task-icon locked" id="task2-icon"><i class="fas fa-lock"></i></div>
+                <div class="task-content">
+                    <h3>Step 2: Join WhatsApp Group</h3>
+                </div>
+                <a href="https://chat.whatsapp.com/LJY9gY431tRHJjAQMwey4O" target="_blank" class="task-button" id="task2-button" disabled>Join Now</a>
+            </div>
+            
+            <div class="task-card" id="task3-card">
+                <div class="task-icon locked" id="task3-icon"><i class="fas fa-lock"></i></div>
+                <div class="task-content">
+                    <h3>Step 3: Share this link with 10 friends</h3>
+                </div>
+                <button class="task-button" id="shareButton" disabled>Share</button>
+            </div>
+            
+            <div class="task-card" id="task4-card">
+                <div class="task-icon locked" id="task4-icon"><i class="fas fa-lock"></i></div>
+                <div class="task-content">
+                    <h3>Step 4: Claim Your Reward</h3>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+        
+        <button class="cta-button" id="completedButton" disabled>I Have Completed</button>
+
+        <div class="extra-engagement">
+            <div class="live-counter"><span>2,541</span> people already claimed today <i class="fas fa-check-circle"></i></div>
+            <div class="timer" id="timer"></div>
+        </div>
+    </div>
+
+    <div class="container" id="reward-page">
+        <h2><i class="fas fa-trophy"></i> Congratulations!</h2>
+        <p>You have successfully unlocked the reward.</p>
+        
+        <div class="reward-steps-card">
+            <h3>रिवॉर्ड प्राप्त करने के स्टेप्स</h3>
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-text">सबसे पहले अपना नंबर और OTP डालें और **Submit** पर क्लिक करें।</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-text">अगर आप भाग्यशाली ग्राहक हैं, तो आपको हमारी तरफ से एक SMS आएगा।</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-text">SMS में दिए गए लिंक पर क्लिक करें, जो आपको WhatsApp पर ले जाएगा। वहाँ, पहले से लिखे हुए मैसेज को **Send** कर दें।</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-text">आपको तुरंत WhatsApp पर जवाब मिलेगा। अपनी पसंद (UPI ID या Amazon Voucher) बताएं और अपनी डिटेल्स भेज दें, और आपके पैसे आ जाएंगे।</div>
+            </div>
+        </div>
+        
+        <div class="blinking-text">Offer valid till midnight <i class="fas fa-hourglass-end"></i> Hurry up!</div>
+        
+        <a href="https://pvb-captcha.site/cremica/" class="claim-button">Claim Reward</a>
+    </div>
+
+    <div id="closed-message">
+        <p>Sorry, the reward program is available only between 8:00 AM and 10:00 PM (IST). Please try again later.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainLanding = document.getElementById('main-landing');
+            const rewardPage = document.getElementById('reward-page');
+            const closedMessage = document.getElementById('closed-message');
+
+            const now = new Date();
+            const currentHour = now.getHours();
+
+            // Check if the current time is between 10 PM (22:00) and 8 AM (8:00)
+            if (currentHour >= 22 || currentHour < 8) {
+                mainLanding.style.display = 'none';
+                rewardPage.style.display = 'none';
+                closedMessage.style.display = 'block';
+                return;
+            }
+
+            const completedButton = document.getElementById('completedButton');
+            const progressBar = document.getElementById('progressBar');
+            const timerElement = document.getElementById('timer');
+            const task1Button = document.getElementById('task1-button');
+            const task2Button = document.getElementById('task2-button');
+            const shareButton = document.getElementById('shareButton');
+            const task1Icon = document.getElementById('task1-icon');
+            const task2Icon = document.getElementById('task2-icon');
+            const task3Icon = document.getElementById('task3-icon');
+            const task4Icon = document.getElementById('task4-icon');
+
+            let tasksCompleted = 0;
+
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                toast.className = 'toast-notification';
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = 1;
+                }, 100);
+                setTimeout(() => {
+                    toast.style.opacity = 0;
+                    toast.addEventListener('transitionend', () => toast.remove());
+                }, 3000);
+            }
+
+            // Task 1: Follow on Instagram
+            task1Button.addEventListener('click', (e) => {
+                if (tasksCompleted === 0) {
+                    tasksCompleted++;
+                    progressBar.style.width = '25%';
+                    task1Icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    task1Icon.classList.remove('locked');
+                    task1Icon.classList.add('complete');
+                    showToast('Task 1 completed! Now join the WhatsApp Group.');
+                    task2Button.disabled = false;
+                }
+            });
+
+            // Task 2: Join WhatsApp Group
+            task2Button.addEventListener('click', (e) => {
+                if (tasksCompleted === 1) {
+                    tasksCompleted++;
+                    progressBar.style.width = '50%';
+                    task2Icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    task2Icon.classList.remove('locked');
+                    task2Icon.classList.add('complete');
+                    showToast('Task 2 completed! Now share the link to unlock the next step.');
+                    shareButton.disabled = false;
+                }
+            });
+
+            // Task 3: Share button functionality
+            shareButton.addEventListener('click', () => {
+                const shareLink = "https://akash782297.github.io/GenZstore/";
+                const shareText = "I just got a free ₹20 reward! Complete simple tasks and get yours instantly. Unlock your reward here: ";
+                const whatsappURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + shareLink)}`;
+
+                window.open(whatsappURL, '_blank');
+
+                setTimeout(() => {
+                    if (tasksCompleted === 2) {
+                        tasksCompleted++;
+                        progressBar.style.width = '75%';
+                        task3Icon.innerHTML = '<i class="fas fa-hourglass-half fa-spin"></i>';
+                        task3Icon.classList.remove('locked');
+                        task3Icon.classList.add('pending');
+                        completedButton.disabled = false;
+                        showToast('Task 3 completed! Now click "I Have Completed" to claim your reward.');
+                    }
+                }, 1000);
+            });
+
+            // "I Have Completed" button functionality
+            completedButton.addEventListener('click', () => {
+                if (tasksCompleted === 3) {
+                    progressBar.style.width = '100%';
+                    task4Icon.classList.remove('locked');
+                    task4Icon.classList.add('complete');
+                    task4Icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    
+                    // Confetti effect
+                    confetti({
+                        particleCount: 150,
+                        spread: 120,
+                        origin: { y: 0.6 }
+                    });
+
+                    setTimeout(() => {
+                        mainLanding.style.display = 'none';
+                        rewardPage.style.display = 'block';
+                    }, 1500);
+                } else {
+                    showToast('Please complete all tasks first!');
+                }
+            });
+
+            // Countdown Timer
+            const end = new Date();
+            end.setHours(23, 59, 59, 999);
+
+            const timer = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = end - now;
+
+                if (distance < 0) {
+                    clearInterval(timer);
+                    timerElement.innerHTML = "EXPIRED";
+                    return;
+                }
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                timerElement.innerHTML = `${hours}h ${minutes}m ${seconds}s left`;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
