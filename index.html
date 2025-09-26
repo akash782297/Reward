@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Product Showcase</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    
     <style>
         /* Global Styles */
         body {
-            background-color: #121212;
+            /* Deeper dark mode */
+            background-color: #0A0A0A; 
             color: #E0E0E0;
-            font-family: 'Poppins', sans-serif;
+            /* Using Lato for general body text (more readable) */
+            font-family: 'Lato', sans-serif;
             margin: 0;
             padding: 20px;
         }
@@ -39,10 +43,12 @@
             border-radius: 50px;
             outline: none;
             transition: box-shadow 0.3s ease-in-out;
+            font-family: 'Lato', sans-serif;
         }
 
         #search-input:focus {
-            box-shadow: 0 0 15px #00FFFF, 0 0 20px #00FFFF;
+            /* Subtle cyan glow */
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
         }
         
         /* Product Grid and Card Styling */
@@ -88,18 +94,26 @@
         .product-card h3 {
             margin-top: 15px;
             margin-bottom: 5px;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: #fff;
+            /* Montserrat for headings (more impact) */
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
         }
 
         .product-card p {
             margin: 5px 0 15px;
             color: #B0B0B0;
+            /* Lato for body text */
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
         }
 
-        /* Shop Button Styling (with rounded corners) */
+        /* Shop Button Styling (with arrow animation) */
         .shop-button {
-            display: block;
+            display: flex; /* Changed to flex to align arrow and text */
+            justify-content: center; /* Center the entire content */
+            align-items: center;
             background-color: #6200EE;
             color: white;
             padding: 12px;
@@ -108,17 +122,48 @@
             border-radius: 8px;
             transition: background-color 0.3s ease;
             outline: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.5px; 
+            overflow: hidden; /* Important for animation */
+            position: relative; 
         }
 
         .shop-button:hover {
             background-color: #7d33eb;
+        }
+
+        /* Style for the text/content wrapper */
+        .button-content {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease; /* Transition for the text content */
+        }
+
+        /* Style for the arrow icon */
+        .button-content .arrow {
+            margin-left: 8px; /* Space between text and arrow */
+            font-size: 1.2em;
+            transition: transform 0.3s ease; /* Transition for the arrow movement */
+            display: inline-block;
+        }
+
+        /* Animation on Hover */
+        .shop-button:hover .button-content {
+            /* Move the text slightly to the left */
+            transform: translateX(-5px); 
+        }
+
+        .shop-button:hover .button-content .arrow {
+            /* Move the arrow to the right */
+            transform: translateX(15px); 
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <img src="https://i.ibb.co/5h7Fj21W/Picsart-25-09-26-17-22-46-288.png" class="logo">
+        <img src="https://i.ibb.co/5h7Fj21W/Picsart-25-09-26-17-22-46-288.png" class="logo" alt="Logo">
     </div>
 
     <div class="search-container">
@@ -144,7 +189,12 @@
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
                     <p><strong>Price: ${product.price}</strong></p>
-                    <a href="${product.shopping_link}" target="_blank" class="shop-button">Shop Now</a>
+                    <a href="${product.shopping_link}" target="_blank" class="shop-button">
+                        <span class="button-content">
+                            Shop Now 
+                            <span class="arrow">&rarr;</span>
+                        </span>
+                    </a>
                 `;
                 productList.appendChild(productCard);
             });
@@ -166,15 +216,20 @@
 
         // Fetch data from external JSON file
         fetch('products.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
             .then(data => {
                 productsData = data;
                 displayProducts(productsData); // Initial display of all products after loading data
             })
             .catch(error => {
                 console.error('Error fetching products:', error);
-                // Handle error gracefully, maybe show a message to the user
-                productList.innerHTML = '<p style="text-align:center;color:#ff6347;">Products could not be loaded. Please try again later.</p>';
+                // Show a user-friendly error message
+                productList.innerHTML = '<p style="text-align:center;color:#ff6347;font-family:Montserrat, sans-serif;">⚠️ Products could not be loaded. Please ensure "products.json" exists in the same folder. ⚠️</p>';
             });
     </script>
 </body>
