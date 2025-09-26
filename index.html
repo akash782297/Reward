@@ -3,802 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akash Dubey | Portfolio</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;700;800&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Premium Product Showcase</title>
     
     <style>
-        /* CSS styles here */
-        /* ======== CSS VARIABLES (THEME) - Dark Theme ======== */
-        :root {
-            --primary-color: #6a11cb;
-            --secondary-color: #2575fc;
-            --font-heading: 'Playfair Display', serif;
-            --font-body: 'Poppins', sans-serif;
-            --text-color-primary: #f0f2f5;
-            --text-color-secondary: #a0a8b2;
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            --border-radius: 12px;
+        /* Global Styles */
+        body {
+            background-color: #121212;
+            color: #E0E0E0;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
         }
 
-        /* ======== GLOBAL STYLES & TYPOGRAPHY ======== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+        /* Logo Styling */
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 150px;
+        }
+
+        /* Search Bar Styles (with glow effect) */
+        .search-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        #search-input {
+            width: 80%;
+            max-width: 500px;
+            padding: 15px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 50px;
+            outline: none;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        #search-input:focus {
+            box-shadow: 0 0 15px #00FFFF, 0 0 20px #00FFFF;
+        }
+        
+        /* Product Grid and Card Styling */
+        .product-grid {
+            display: grid;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Default: Ek row mein ek product (mobile-first approach) */
+        .product-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        /* Tablets and Desktops: Ek row mein do products */
+        @media (min-width: 600px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .product-card {
+            background-color: #1E1E1E;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .product-card p {
+            margin: 5px 0 15px;
+            color: #B0B0B0;
+        }
+
+        /* Shop Button Styling (with rounded corners) */
+        .shop-button {
+            display: block;
+            background-color: #6200EE;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
             outline: none;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color-primary);
-            font-family: var(--font-body);
-            line-height: 1.8;
-            font-weight: 400;
-        }
-        
-        header {
-            background: rgba(30, 30, 30, 0.9);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 15px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            transition: top 0.3s;
-        }
-
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: var(--font-heading);
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-color-secondary);
-            font-weight: 500;
-            font-family: var(--font-body);
-            transition: color 0.3s, transform 0.2s;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--text-color-primary);
-            transform: translateY(-2px);
-            position: relative;
-        }
-        
-        nav a.active::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 3px;
-            background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            border-radius: 2px;
-            bottom: -8px;
-            left: 0;
-            transition: width 0.3s ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 25px;
-        }
-
-        /* ======== ANIMATIONS ======== */
-        section {
-            padding: 80px 0;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Using Playfair Display for all headings */
-        h1, h2, h3 {
-            font-family: var(--font-heading);
-            font-weight: 700;
-        }
-
-        h2 {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 60px;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--text-color-primary);
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 6px;
-            background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            border-radius: 5px;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        section.visible h2::after {
-            width: 100px;
-        }
-
-        /* ======== LOADING SCREEN ======== */
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.5s ease-out;
-        }
-        #loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .loader {
-            width: 80px;
-            height: 80px;
-            border: 5px solid #fff;
-            border-bottom-color: var(--primary-color);
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
-        }
-        @keyframes rotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .loading-text {
-            color: var(--text-color-primary);
-            margin-top: 20px;
-            font-family: var(--font-body);
-        }
-
-        /* ======== HERO SECTION ======== */
-        #home {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            min-height: calc(100vh - 80px);
-            padding-top: 80px;
-        }
-
-        .profile-img {
-            max-width: 250px; /* Adjusted size */
-            height: auto;
-            display: block;
-            margin-bottom: 3rem;
-            border-radius: 0; 
-            border: none;
-            box-shadow: none;
-            transition: none;
-        }
-
-        .profile-img:hover {
-            transform: none; 
-            box-shadow: none;
-        }
-        
-        .hero-text h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.2rem;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
-
-        .hero-text .tagline {
-            font-size: 1.5rem;
-            color: var(--text-color-secondary);
-            font-family: var(--font-body);
-            font-weight: 300;
-        }
-        
-        /* ======== ABOUT SECTION ======== */
-        .about-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 50px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-        
-        .about-content p {
-            font-size: 1.15rem;
-            color: var(--text-color-secondary);
-            font-weight: 400;
-            line-height: 1.9;
-        }
-
-        /* ======== SKILLS SECTION (INTERACTIVE) ======== */
-        #skills .section-subtitle {
-            text-align: center;
-            color: var(--text-color-secondary);
-            margin-top: -30px;
-            margin-bottom: 40px;
-            font-size: 1.1rem;
-        }
-        
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .skill-card {
-            background: var(--card-bg);
-            padding: 35px 25px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            min-height: 220px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .skill-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
-            background: #252525;
-        }
-        
-        .skill-card .skill-front, .skill-card .skill-back {
-            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-            text-align: center;
-            width: 100%;
-        }
-
-        .skill-card .skill-front { opacity: 1; transform: scale(1); }
-        .skill-card .skill-back { opacity: 0; position: absolute; transform: scale(0.7); }
-        .skill-card.show-rating .skill-front { opacity: 0; transform: scale(0.7); }
-        .skill-card.show-rating .skill-back { opacity: 1; transform: scale(1); }
-
-        .skill-card i {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .skill-card h3 { 
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-color-primary);
-        }
-        
-        .progress-bar {
-            width: 85%;
-            height: 12px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            margin: 18px auto;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            width: 0;
-            background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            border-radius: 6px;
-            transition: width 0.8s ease-in-out;
-        }
-        
-        .skill-card.show-rating .progress { width: var(--progress-width, 0%); }
-        .rating-text { 
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        /* ======== WORKS SECTION ======== */
-        .works-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-        }
-        .works-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .works-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            background: #252525;
-        }
-        .works-card img.logo {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            border-radius: 50%;
-            margin-bottom: 1.5rem;
-        }
-        .works-card h3 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-        .works-card .status {
-            font-size: 1rem;
-            color: var(--text-color-secondary);
-            font-weight: 500;
-        }
-        .works-card .status.completed {
-            color: #4CAF50; /* Green color for completed */
-        }
-        .works-card .status.working {
-            color: #FFC107; /* Yellow color for working */
-        }
-
-        /* ======== EDUCATION SECTION (IMPROVED TIMELINE) ======== */
-        .timeline {
-            position: relative;
-            max-width: 750px;
-            margin: 0 auto;
-            padding: 30px 0;
-        }
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 5px;
-            background-image: linear-gradient(var(--primary-color), var(--secondary-color));
-            top: 0;
-            bottom: 0;
-            left: 20px;
-            border-radius: 5px;
-        }
-        .timeline-item {
-            padding: 15px 0 45px 70px;
-            position: relative;
-        }
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 28px;
-            height: 28px;
-            background-color: #1e1e1e;
-            border: 5px solid var(--primary-color);
-            top: 20px;
-            left: 5px;
-            border-radius: 50%;
-            z-index: 1;
-            transition: all 0.2s ease-in-out;
-        }
-        .timeline-item:hover::after {
-            transform: scale(1.15);
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 10px rgba(37, 117, 252, 0.5);
-        }
-        .timeline-item-content {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .timeline-item-content p {
-            font-size: 1.05rem;
-            color: var(--text-color-secondary);
-            font-weight: 300;
-        }
-
-        /* ======== PROJECTS SECTION ======== */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .project-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            background: #252525;
-        }
-        
-        .project-card h3, .timeline-item h3 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        .project-card p {
-            font-size: 1.05rem;
-            color: var(--text-color-secondary);
-            font-weight: 300;
-        }
-
-        /* ======== FUTURE GOALS & CONTACT SECTION ======== */
-        #goals p {
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: 300;
-            max-width: 750px;
-            margin: 30px auto;
-            padding: 50px;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            line-height: 1.8;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-color-primary);
-        }
-        
-        .contact-buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            margin-top: 40px;
-            flex-wrap: wrap; /* Added for better responsiveness */
-        }
-
-        /* ======== IMPROVED BUTTON ANIMATION ======== */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 15px;
-            padding: 18px 35px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-family: var(--font-heading);
-            font-weight: 700;
-            color: white;
-            background-size: 300% 100%;
-            transition: all .4s ease-in-out;
-            border: none;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn:hover {
-            background-position: 100% 0;
-            transform: translateY(-7px);
-            box-shadow: 0 12px 25px rgba(37, 117, 252, 0.4);
-        }
-        
-        .btn:active {
-            transform: translateY(-3px) scale(0.98);
-            box-shadow: 0 5px 12px rgba(37, 117, 252, 0.25);
-        }
-
-        .btn-gradient {
-            background-image: linear-gradient(to right, #6a11cb, #2575fc, #6a11cb);
-        }
-        
-        /* ======== FOOTER ======== */
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            background: rgba(0, 0, 0, 0.2);
-            margin-top: 80px;
-            color: var(--text-color-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* ======== RESPONSIVE DESIGN ======== */
-        @media (max-width: 768px) {
-            h2 { font-size: 2.5rem; margin-bottom: 40px;}
-            .hero-text h1 { font-size: 3.5rem; }
-            .hero-text .tagline { font-size: 1.2rem; }
-            .profile-img { 
-                max-width: 200px; /* Adjusted for mobile */
-                margin-bottom: 2rem; 
-            }
-            .contact-buttons {
-                flex-direction: column;
-                width: 100%;
-                max-width: 300px;
-                margin: 30px auto 0 auto;
-            }
-            .btn { 
-                width: 100%; 
-                justify-content: center; 
-                padding: 15px 25px;
-            }
-            nav ul {
-                display: none;
-            }
-            header .container {
-                justify-content: center;
-            }
-            .about-content, .skill-card, .timeline-item-content, .project-card, #goals p {
-                padding: 30px;
-            }
-            .timeline-item {
-                padding-left: 50px;
-            }
-            .timeline-item::after {
-                left: 0px;
-            }
-            .timeline::after {
-                left: 15px;
-            }
+        .shop-button:hover {
+            background-color: #7d33eb;
         }
     </style>
 </head>
 <body>
 
-    <div id="loading-screen">
-        <div class="loader"></div>
-        <p class="loading-text">Loading...</p>
+    <div class="header">
+        <img src="https://i.ibb.co/5h7Fj21W/Picsart-25-09-26-17-22-46-288.png" class="logo">
     </div>
 
-    <header>
-        <div class="container">
-            <a href="#home" class="logo">『AKSHT DWIVEDI』</a>
-            <nav>
-                <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#works">Works</a></li>
-                    <li><a href="#education">Education</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search for products...">
+    </div>
+
+    <div class="product-grid" id="product-list">
         </div>
-    </header>
-
-    <main>
-        <section id="home" class="container">
-            <img src="https://i.ibb.co/yBsmyZqr/17202.webp" alt="Profile Photo of Akash Dubey" class="profile-img">
-            
-            <div class="hero-text">
-                <h1>AKSHT</h1>
-                <p class="tagline">11th Student | ZICA Student | Aspiring Web Developer | Problem Solver</p>
-            </div>
-        </section>
-
-        <section id="about" class="container fade-in-section">
-            <h2>About Me</h2>
-            <div class="about-content">
-                <p>
-                    I am a student of 11th grade and also a student at ZICA Institute. I am passionate about web development, creativity, and problem-solving. I am dedicated to learning and constantly improving my communication and design skills. 
-                </p>
-            </div>
-        </section>
-
-        <section id="skills" class="container fade-in-section">
-            <h2>My Skills</h2>
-            <p class="section-subtitle">(Click on a skill to see my proficiency)</p>
-            <div class="skills-grid">
-                <div class="skill-card" data-rating="80">
-                    <div class="skill-front"><i class="fas fa-comments"></i><h3>Communication</h3></div>
-                    <div class="skill-back"><h3 class="rating-text">8/10</h3><div class="progress-bar"><div class="progress"></div></div><p>Good</p></div>
-                </div>
-                <div class="skill-card" data-rating="85">
-                    <div class="skill-front"><i class="fas fa-sitemap"></i><h3>Situation Handling</h3></div>
-                     <div class="skill-back"><h3 class="rating-text">8.5/10</h3><div class="progress-bar"><div class="progress"></div></div><p>Very Good</p></div>
-                </div>
-                <div class="skill-card" data-rating="90">
-                    <div class="skill-front"><i class="fas fa-lightbulb"></i><h3>Problem Solving</h3></div>
-                     <div class="skill-back"><h3 class="rating-text">9/10</h3><div class="progress-bar"><div class="progress"></div></div><p>Excellent</p></div>
-                </div>
-                <div class="skill-card" data-rating="90">
-                    <div class="skill-front"><i class="fas fa-language"></i><h3>Hindi-English</h3></div>
-                     <div class="skill-back"><h3 class="rating-text">9/10</h3><div class="progress-bar"><div class="progress"></div></div><p>Intermediate</p></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="works" class="container fade-in-section">
-            <h2>Works</h2>
-            <div class="works-grid">
-                <div class="works-card">
-                    <img src="https://1000logos.net/wp-content/uploads/2021/04/Fedex-logo.png" alt="Google Logo" class="logo">
-                    <h3>FedExinvi</h3>
-                    <p class="status completed">Completed</p>
-                </div>
-                <div class="works-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbFY7q-m8RfmGr5HLDoAiaq9OWIWY-4_2eom3CCwZwZQ&s=10" alt="PANDA International Logo" class="logo">
-                    <h3>Panda international</h3>
-                    <p class="status completed">Completed</p>
-                </div>
-                <div class="works-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0_piEhGHP7TqCZrz_ZhDA1tfjT8sMJXW0BcZAaoYfOXLc_tyklWmUjt0&s=10" alt="Apple Logo" class="logo">
-                    <h3>LEO</h3>
-                    <p class="status completed">Completed</p>
-                </div>
-                <div class="works-card">
-                    <img src="https://rupiyo.app/_next/static/media/rupiyo-sm.cd020625.svg" alt="NVIDIA Logo" class="logo">
-                    <h3>Rupiyo</h3>
-                    <p class="status completed">Completed</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="education" class="container fade-in-section">
-            <h2>Education</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-item-content">
-                        <h3>Class 11th</h3>
-                        <p><strong>OM SAI JANTA JANARDAN INTER COLLEGE</strong> | 2024 – Present</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                     <div class="timeline-item-content">
-                        <h3>Web Development & Design</h3>
-                        <p><strong>ZICA Institute</strong> | Student</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="container fade-in-section">
-            <h2>Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h3>Personal Portfolio Website</h3>
-                    <p>A responsive portfolio to showcase my skills and projects (the one you're on!).</p>
-                </div>
-                <div class="project-card">
-                    <h3>Responsive Landing Page</h3>
-                    <p>A modern, visually appealing landing page built with HTML & CSS.</p>
-                </div>
-                <div class="project-card">
-                    <h3>To-Do List App (JavaScript)</h3>
-                    <p>A functional to-do list application to manage daily tasks, built with vanilla JS.</p>
-                </div>
-                <div class="project-card">
-                    <h3>Creative Poster / Banner</h3>
-                    <p>Various design projects completed as part of my coursework at ZICA Institute.</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="goals" class="container fade-in-section">
-            <h2>Future Goals</h2>
-            <p>"To become a professional full-stack web developer and creative designer."</p>
-        </section>
-
-        <section id="contact" class="container fade-in-section">
-            <h2>Get In Touch</h2>
-            <div class="contact-buttons">
-                <a href="mailto:akashdubey6700@gmail.com" class="btn btn-gradient">
-                    <i class="fas fa-envelope"></i> Email Me
-                </a>
-                <a href="https://wa.me/917388731640?text=Hello%20Akash%2C%20I%20saw%20your%20portfolio" target="_blank" class="btn btn-gradient">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
-                <a href="https://t.me/Toxicaksh" target="_blank" class="btn btn-gradient">
-                    <i class="fab fa-telegram-plane"></i> Telegram
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Akash Dubey. All rights reserved.</p>
-    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const loadingScreen = document.getElementById('loading-screen');
-            const sections = document.querySelectorAll('.fade-in-section');
-            const homeSection = document.getElementById('home');
+        const productList = document.getElementById('product-list');
+        const searchInput = document.getElementById('search-input');
+        let productsData = []; // To store data from the JSON file
 
-            // Force loading screen to hide after a max of 3 seconds
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 3000); 
-
-            // JS for Fade-in Animation on Scroll
-            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            sections.forEach(section => { observer.observe(section); });
-            if (homeSection) { homeSection.classList.add('visible'); }
-
-            // JS for Interactive Skill Cards
-            const skillCards = document.querySelectorAll('.skill-card');
-            skillCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    this.classList.toggle('show-rating');
-                    const rating = this.dataset.rating;
-                    const progressBar = this.querySelector('.progress');
-                    if (this.classList.contains('show-rating')) {
-                        progressBar.style.setProperty('--progress-width', rating + '%');
-                    }
-                });
+        // Function to create and display product cards
+        function displayProducts(products) {
+            productList.innerHTML = '';
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <img src="${product.image_url}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p><strong>Price: ${product.price}</strong></p>
+                    <a href="${product.shopping_link}" target="_blank" class="shop-button">Shop Now</a>
+                `;
+                productList.appendChild(productCard);
             });
-            
-            // JS for active navigation link on scroll
-            const navLinks = document.querySelectorAll('nav ul li a');
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    if (pageYOffset >= (sectionTop - 150)) {
-                        current = section.getAttribute('id');
-                    }
-                });
+        }
 
-                navLinks.forEach(a => {
-                    a.classList.remove('active');
-                    if (a.getAttribute('href').includes(current)) {
-                        a.classList.add('active');
-                    }
-                });
-            });
+        // Function to filter products based on search query
+        function filterProducts(query) {
+            const filteredProducts = productsData.filter(product =>
+                product.name.toLowerCase().includes(query.toLowerCase()) ||
+                product.description.toLowerCase().includes(query.toLowerCase())
+            );
+            displayProducts(filteredProducts);
+        }
+
+        // Add event listener for real-time search
+        searchInput.addEventListener('input', (e) => {
+            filterProducts(e.target.value);
         });
+
+        // Fetch data from external JSON file
+        fetch('products.json')
+            .then(response => response.json())
+            .then(data => {
+                productsData = data;
+                displayProducts(productsData); // Initial display of all products after loading data
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+                // Handle error gracefully, maybe show a message to the user
+                productList.innerHTML = '<p style="text-align:center;color:#ff6347;">Products could not be loaded. Please try again later.</p>';
+            });
     </script>
 </body>
 </html>
