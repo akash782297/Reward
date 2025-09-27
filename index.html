@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Product Showcase</title>
+    <title>Premium App Store Showcase</title> 
     
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Global Styles */
+        /* Global Styles (Same dark theme) */
         body {
-            /* Deeper dark mode */
             background-color: #0A0A0A; 
             color: #E0E0E0;
-            /* Using Lato for general body text (more readable) */
             font-family: 'Lato', sans-serif;
             margin: 0;
             padding: 20px;
@@ -51,27 +49,27 @@
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
         }
         
-        /* Product Grid and Card Styling */
-        .product-grid {
+        /* App Grid and Card Styling (Renamed from product- to app- for clarity) */
+        .app-grid {
             display: grid;
             gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        /* Default: Ek row mein ek product (mobile-first approach) */
-        .product-grid {
+        /* Default: Ek row mein ek app (mobile-first approach) */
+        .app-grid {
             grid-template-columns: 1fr;
         }
         
-        /* Tablets and Desktops: Ek row mein do products */
+        /* Tablets and Desktops: Ek row mein do apps */
         @media (min-width: 600px) {
-            .product-grid {
+            .app-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        .product-card {
+        .app-card {
             background-color: #1E1E1E;
             padding: 20px;
             border-radius: 10px;
@@ -79,19 +77,19 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .product-card:hover {
+        .app-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
         }
         
-        .product-card img {
+        .app-card img {
             width: 100%;
             height: 250px;
             object-fit: cover;
             border-radius: 8px;
         }
 
-        .product-card h3 {
+        .app-card h3 {
             margin-top: 15px;
             margin-bottom: 5px;
             font-size: 1.6rem;
@@ -101,7 +99,7 @@
             font-weight: 700;
         }
 
-        .product-card p {
+        .app-card p {
             margin: 5px 0 15px;
             color: #B0B0B0;
             /* Lato for body text */
@@ -109,13 +107,13 @@
             font-weight: 300;
         }
 
-        /* Shop Button Styling (with arrow animation) */
-        .shop-button {
-            display: flex; /* Changed to flex to align arrow and text */
-            justify-content: center; /* Center the entire content */
+        /* Download Button Styling (with arrow animation) - Same style, just different text */
+        .download-button {
+            display: flex;
+            justify-content: center;
             align-items: center;
-            background-color: #6200EE;
-            color: white;
+            background-color: #03DAC6; /* Changed color for differentiation (Teal) */
+            color: #000; /* Black text for contrast */
             padding: 12px;
             text-align: center;
             text-decoration: none;
@@ -123,39 +121,37 @@
             transition: background-color 0.3s ease;
             outline: none;
             font-family: 'Montserrat', sans-serif;
-            font-weight: 500;
+            font-weight: 700; /* Bolder text for CTA */
             letter-spacing: 0.5px; 
-            overflow: hidden; /* Important for animation */
+            overflow: hidden;
             position: relative; 
         }
 
-        .shop-button:hover {
-            background-color: #7d33eb;
+        .download-button:hover {
+            background-color: #00b8a3; /* Darker teal on hover */
         }
 
         /* Style for the text/content wrapper */
         .button-content {
             display: flex;
             align-items: center;
-            transition: transform 0.3s ease; /* Transition for the text content */
+            transition: transform 0.3s ease;
         }
 
         /* Style for the arrow icon */
         .button-content .arrow {
-            margin-left: 8px; /* Space between text and arrow */
+            margin-left: 8px;
             font-size: 1.2em;
-            transition: transform 0.3s ease; /* Transition for the arrow movement */
+            transition: transform 0.3s ease;
             display: inline-block;
         }
 
         /* Animation on Hover */
-        .shop-button:hover .button-content {
-            /* Move the text slightly to the left */
+        .download-button:hover .button-content {
             transform: translateX(-5px); 
         }
 
-        .shop-button:hover .button-content .arrow {
-            /* Move the arrow to the right */
+        .download-button:hover .button-content .arrow {
             transform: translateX(15px); 
         }
     </style>
@@ -163,59 +159,59 @@
 <body>
 
     <div class="header">
-        <img src="https://i.ibb.co/5h7Fj21W/Picsart-25-09-26-17-22-46-288.png" class="logo" alt="Logo">
+        <img src="https://i.ibb.co/5h7Fj21W/Picsart-25-09-26-17-22-46-288.png" class="logo" alt="App Store Logo">
     </div>
 
     <div class="search-container">
-        <input type="text" id="search-input" placeholder="Search for products...">
+        <input type="text" id="search-input" placeholder="Search for apps...">
     </div>
 
-    <div class="product-grid" id="product-list">
+    <div class="app-grid" id="app-list"> 
         </div>
 
     <script>
-        const productList = document.getElementById('product-list');
+        const appList = document.getElementById('app-list');
         const searchInput = document.getElementById('search-input');
-        let productsData = []; // To store data from the JSON file
+        let appsData = []; // To store data from the JSON file
 
-        // Function to create and display product cards
-        function displayProducts(products) {
-            productList.innerHTML = '';
-            products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.innerHTML = `
-                    <img src="${product.image_url}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    <p><strong>Price: ${product.price}</strong></p>
-                    <a href="${product.shopping_link}" target="_blank" class="shop-button">
+        // Function to create and display app cards (Modified)
+        function displayApps(apps) {
+            appList.innerHTML = '';
+            apps.forEach(app => {
+                const appCard = document.createElement('div');
+                // Updated class name
+                appCard.className = 'app-card'; 
+                appCard.innerHTML = `
+                    <img src="${app.image_url}" alt="${app.name} icon">
+                    <h3>${app.name}</h3>
+                    <p>${app.description}</p>
+                    <a href="${app.download_link}" target="_blank" class="download-button">
                         <span class="button-content">
-                            Shop Now 
+                            Download Now 
                             <span class="arrow">&rarr;</span>
                         </span>
                     </a>
                 `;
-                productList.appendChild(productCard);
+                appList.appendChild(appCard);
             });
         }
 
-        // Function to filter products based on search query
-        function filterProducts(query) {
-            const filteredProducts = productsData.filter(product =>
-                product.name.toLowerCase().includes(query.toLowerCase()) ||
-                product.description.toLowerCase().includes(query.toLowerCase())
+        // Function to filter apps based on search query (Modified)
+        function filterApps(query) {
+            const filteredApps = appsData.filter(app =>
+                app.name.toLowerCase().includes(query.toLowerCase()) ||
+                app.description.toLowerCase().includes(query.toLowerCase())
             );
-            displayProducts(filteredProducts);
+            displayApps(filteredApps);
         }
 
         // Add event listener for real-time search
         searchInput.addEventListener('input', (e) => {
-            filterProducts(e.target.value);
+            filterApps(e.target.value);
         });
 
-        // Fetch data from external JSON file
-        fetch('products.json')
+        // Fetch data from new JSON file: 'apps.json'
+        fetch('apps.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
@@ -223,13 +219,13 @@
                 return response.json();
             })
             .then(data => {
-                productsData = data;
-                displayProducts(productsData); // Initial display of all products after loading data
+                appsData = data;
+                displayApps(appsData); // Initial display of all apps after loading data
             })
             .catch(error => {
-                console.error('Error fetching products:', error);
-                // Show a user-friendly error message
-                productList.innerHTML = '<p style="text-align:center;color:#ff6347;font-family:Montserrat, sans-serif;">⚠️ Products could not be loaded. Please ensure "products.json" exists in the same folder. ⚠️</p>';
+                console.error('Error fetching apps:', error);
+                // Show a user-friendly error message, adjusted for app data
+                appList.innerHTML = '<p style="text-align:center;color:#ff6347;font-family:Montserrat, sans-serif;">⚠️ Apps could not be loaded. Please ensure "apps.json" exists in the same folder. ⚠️</p>';
             });
     </script>
 </body>
