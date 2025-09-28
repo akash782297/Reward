@@ -3,277 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium App Store Showcase</title> 
+    <title>✦ Stellar Hub | Elite Software Suite - Access Required</title> 
     
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJ8W+jYfGJU/T7Lhv2z6cTzJ95P2Xn0KjT3u+wB20k5M2I5mQ5Q5b5k4l4k4l4A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <style>
-        /* Global Styles (Same dark theme) */
+        /* Global Styles (Dark, High-Contrast Theme) */
         body {
             background-color: #0A0A0A; 
             color: #E0E0E0;
             font-family: 'Lato', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            /* Subtle Background Pattern for Depth */
+            background-image: 
+                radial-gradient(circle at top left, #1a1a1a 0%, #0a0a0a 70%),
+                url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23222222' fill-opacity='0.4'%3E%3Cpath d='M3 0L0 3L3 6L6 3L3 0Z'/%3E%3C/g%3E%3C/svg%3E");
+            min-height: 100vh;
+            transition: background-color 1s ease-in-out; 
         }
 
-        /* --- New Password Gate Styles --- */
-        #password-gate {
-            position: fixed; /* Poori screen ko cover karega */
+        /* Neon Glow Color Palette */
+        :root {
+            --neon-cyan: #03DAC6; /* Primary Accent */
+            --neon-magenta: #BB86FC; /* Secondary Accent (for highlights) */
+            --neon-glow: 0 0 8px var(--neon-cyan), 0 0 15px rgba(3, 218, 198, 0.4);
+            --dark-card-bg: rgba(30, 30, 30, 0.75); 
+        }
+
+        /* ------------------------------------------- */
+        /* --- NEW: LOADING SCREEN STYLES --- */
+        /* ------------------------------------------- */
+        #loading-screen {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #0A0A0A; 
-            display: flex; 
+            background: #0A0A0A;
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 1000; /* Sabse upar rahega */
-            text-align: center;
-            padding: 20px;
+            z-index: 1001; /* Higher than password gate */
+            opacity: 1; 
+            transition: opacity 0.8s ease-in-out;
         }
-        
-        #password-gate h2 {
-            font-family: 'Montserrat', sans-serif;
-            color: #03DAC6; /* Teal color */
+
+        #loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(3, 218, 198, 0.2);
+            border-top-color: var(--neon-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 15px var(--neon-cyan);
             margin-bottom: 20px;
-            font-size: 2rem;
         }
 
-        #password-input {
-            padding: 15px;
-            font-size: 16px;
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #444;
-            border-radius: 8px;
-            outline: none;
-            width: 80%;
-            max-width: 300px;
-            margin-bottom: 15px;
-            text-align: center;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        #submit-password {
-            padding: 12px 25px;
-            font-size: 18px;
-            background-color: #03DAC6;
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        #loading-text {
             font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            transition: background-color 0.3s ease;
-        }
-
-        #submit-password:hover {
-            background-color: #00b8a3;
+            font-size: 1.2rem;
+            color: var(--neon-magenta);
+            text-shadow: 0 0 5px var(--neon-magenta);
+            letter-spacing: 2px;
         }
         
-        #error-message {
-            color: #FF6347; /* Error ke liye lal rang */
-            margin-top: 15px;
-            visibility: hidden; 
-            font-family: 'Lato', sans-serif;
-            font-weight: 700;
-        }
-
-        /* Logo Styling */
-        .logo {
-            display: block;
-            margin: 0 auto 20px;
-            width: 150px;
-        }
-
-        /* Search Bar Styles (with glow effect) */
-        .search-container {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        #search-input {
-            width: 80%;
-            max-width: 500px;
-            padding: 15px;
-            font-size: 16px;
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #444;
-            border-radius: 50px;
-            outline: none;
-            transition: box-shadow 0.3s ease-in-out;
-            font-family: 'Lato', sans-serif;
-        }
-
-        #search-input:focus {
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
-        }
-        
-        /* App Grid and Card Styling */
-        .app-grid {
-            display: grid;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .app-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        @media (min-width: 600px) {
-            .app-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .app-card {
-            background-color: #1E1E1E;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .app-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
-        }
-        
-        .app-card img {
+        /* ------------------------------------------- */
+        /* --- ACCESS GATE STYLES (MODAL UI) --- */
+        /* ------------------------------------------- */
+        #access-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .app-card h3 {
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-size: 1.6rem;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-        }
-
-        .app-card p {
-            margin: 5px 0 15px;
-            color: #B0B0B0;
-            font-family: 'Lato', sans-serif;
-            font-weight: 300;
-        }
-
-        /* Download Button Styling */
-        .download-button {
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #03DAC6; 
-            color: #000; 
-            padding: 12px;
+            z-index: 1000;
+            opacity: 0; /* Initially hidden, waiting for loader to finish */
+            transition: opacity 0.8s ease-in-out; 
+            pointer-events: none;
+        }
+        
+        #access-gate.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #access-gate.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .login-box {
+            background: rgba(15, 15, 15, 0.85); 
+            padding: 40px;
+            border-radius: 20px;
             text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-            outline: none;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--neon-magenta);
+            border: 2px solid var(--neon-magenta);
+            animation: pulse-border 2s infinite alternate;
+            transition: all 0.5s ease; 
+        }
+
+        @keyframes pulse-border {
+            from { border-color: rgba(187, 134, 252, 0.4); }
+            to { border-color: var(--neon-magenta); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .login-box h2 {
             font-family: 'Montserrat', sans-serif;
-            font-weight: 700; 
-            letter-spacing: 0.5px; 
-            overflow: hidden;
-            position: relative; 
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+            margin-bottom: 30px;
+            font-size: 2rem;
+            transition: color 0.3s;
+        }
+        
+        .login-box p {
+            color: #AAA;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
         }
 
-        .download-button:hover {
-            background-color: #00b8a3; 
+        #password-input-modal {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            background: rgba(40, 40, 40, 0.6);
+            color: #fff;
+            border: 1px solid rgba(3, 218, 198, 0.3);
+            border-radius: 10px;
+            outline: none;
+            box-shadow: 0 0 5px rgba(3, 218, 198, 0.3);
+            transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s; 
         }
 
-        .button-content {
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s ease;
+        #password-input-modal:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: var(--neon-glow);
         }
 
-        .button-content .arrow {
-            margin-left: 8px;
-            font-size: 1.2em;
-            transition: transform 0.3s ease;
-            display: inline-block;
+        #access-button {
+            width: 100%;
+            background: linear-gradient(45deg, var(--neon-magenta), #BB86FC); 
+            color: #000000; 
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(187, 134, 252, 0.7);
         }
 
-        .download-button:hover .button-content {
-            transform: translateX(-5px); 
+        #access-button:hover {
+            background: #BB86FC; 
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px #BB86FC, 0 0 40px #BB86FC;
+        }
+        
+        #feedback-message {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 15px;
+            height: 20px;
+            font-weight: 700;
+            transition: color 0.3s ease; 
         }
 
-        .download-button:hover .button-content .arrow {
-            transform: translateX(15px); 
+        .granted {
+            color: #4CAF50; /* Green */
+            text-shadow: 0 0 10px #4CAF50;
+            font-size: 1.2rem;
         }
+
+        .denied {
+            color: #FF4747; /* Red */
+            text-shadow: 0 0 10px #FF4747;
+        }
+
+        /* ------------------------------------------- */
+        /* --- MAIN CONTENT STYLES --- */
+        /* ------------------------------------------- */
+
+        .main-content-wrapper {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .main-content-wrapper.loaded {
+            opacity: 1;
+        }
+
+        .header { padding: 40px 20px 20px; text-align: center; }
+        .logo { width: 180px; filter: drop-shadow(0 0 8px var(--neon-cyan)) drop-shadow(0 0 2px #fff); transition: filter 0.5s ease; }
+        .logo:hover { filter: drop-shadow(0 0 12px var(--neon-cyan)) drop-shadow(0 0 5px #fff); }
+        .search-container { text-align: center; padding: 20px; margin-bottom: 40px; }
+        #search-input { width: 90%; max-width: 600px; padding: 18px 25px; font-size: 17px; background: rgba(40, 40, 40, 0.4); color: #fff; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 50px; outline: none; backdrop-filter: blur(12px); transition: box-shadow 0.3s ease-in-out, border-color 0.3s; font-family: 'Lato', sans-serif; }
+        #search-input:focus { border-color: var(--neon-cyan); box-shadow: var(--neon-glow); }
+        .section-title { max-width: 1200px; margin: 0 auto 30px; padding: 0 20px; border-bottom: 2px solid var(--neon-magenta); line-height: 0.1em; text-align: left; }
+        .section-title h2 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.8rem; color: #fff; background: #0A0A0A; display: inline; padding-right: 15px; text-shadow: 0 0 5px var(--neon-magenta); }
+        .section-title i { color: var(--neon-magenta); margin-right: 10px; }
+        .main-content { padding: 0 20px 60px; }
+        .app-grid { display: grid; gap: 30px; max-width: 1200px; margin: 0 auto; transition: opacity 0.5s; }
+        .app-grid { grid-template-columns: 1fr; }
+        @media (min-width: 600px) { .app-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 992px) { .app-grid { grid-template-columns: repeat(3, 1fr); } }
+        .app-card { background: var(--dark-card-bg); backdrop-filter: blur(8px); border: 1px solid rgba(3, 218, 198, 0.2); padding: 25px; border-radius: 20px; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.7); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease; position: relative; overflow: hidden; }
+        .app-card:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 20px 40px rgba(0, 0, 0, 1), 0 0 15px var(--neon-cyan), 0 0 30px rgba(3, 218, 198, 0.6); }
+        .app-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 15px; border: 2px solid var(--neon-magenta); box-shadow: 0 0 10px rgba(187, 134, 252, 0.3); }
+        .app-card h3 { margin-top: 25px; margin-bottom: 5px; font-size: 1.8rem; color: var(--neon-cyan); font-family: 'Montserrat', sans-serif; font-weight: 900; letter-spacing: -0.5px; text-shadow: 0 0 5px rgba(3, 218, 198, 0.5); }
+        .app-card p { margin: 5px 0 25px; color: #B0B0B0; font-family: 'Lato', sans-serif; font-weight: 300; line-height: 1.6; }
+        .download-button { display: flex; justify-content: center; align-items: center; background: linear-gradient(45deg, var(--neon-cyan), #00fff7); color: #000000; padding: 16px; text-decoration: none; border-radius: 12px; outline: none; font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: 1px; transition: all 0.4s ease; box-shadow: 0 0 15px rgba(3, 218, 198, 0.7); }
+        .download-button:hover { background: #00fff7; transform: scale(1.03); box-shadow: 0 0 25px #00fff7, 0 0 40px #00fff7; }
+        .button-content { display: flex; align-items: center; transition: transform 0.3s ease; }
+        .button-content i { margin-right: 10px; font-size: 1.2em; transition: transform 0.3s ease; }
+        .download-button:hover .button-content { transform: translateX(-5px); }
+        .download-button:hover .button-content i { transform: scale(1.1); opacity: 0.8; }
     </style>
 </head>
 <body>
+    
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <div id="loading-text">INITIALIZING VAULT SYSTEMS...</div>
+    </div>
+    <div id="access-gate">
+        <div class="login-box">
+            <h2><i class="fas fa-key"></i> SECURE ACCESS</h2>
+            <p id="attempts-msg">Enter the Access Key (3 attempts remaining)</p>
+            <input type="password" id="password-input-modal" placeholder="Enter Access Key (RVX)" required>
+            <button id="access-button">GRANT ACCESS</button>
+            <div id="feedback-message"></div>
+        </div>
+    </div>
+    <div class="main-content-wrapper">
+        <div class="header">
+            <img src="https://i.ibb.co/5h7Fj21W/Picsart-25-09-26-17-22-46-288.png" class="logo" alt="App Store Logo">
+        </div>
 
-    <div id="password-gate">
-        <h2>🔒 Exclusive Access Required</h2>
-        <input type="password" id="password-input" placeholder="Password (Hint: what you are for me)">
-        <button id="submit-password">Unlock</button>
-        <p id="error-message">❌ Incorrect Password. Please check the hint.</p>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search the secure vault for premium apps...">
+        </div>
+        
+        <div class="main-content">
+            <div class="section-title">
+                <h2><i class="fas fa-gem"></i>App store</h2>
+            </div>
+            
+            <div class="app-grid" id="app-list"> 
+                </div>
+        </div>
     </div>
 
-    <div class="header">
-        <img src="https://i.ibb.co/5h7Fj21W/Picsart-25-09-26-17-22-46-288.png" class="logo" alt="App Store Logo">
-    </div>
-
-    <div class="search-container">
-        <input type="text" id="search-input" placeholder="Search for apps...">
-    </div>
-
-    <div class="app-grid" id="app-list"> 
-    </div>
 
     <script>
-        // --- Password Protection Logic ---
-        const CORRECT_PASSWORD = "followers"; // ✅ Aapka set kiya hua password
+        // --- Elements ---
+        const loadingScreen = document.getElementById('loading-screen');
+        const accessGate = document.getElementById('access-gate');
+        const passwordInputModal = document.getElementById('password-input-modal');
+        const accessButton = document.getElementById('access-button');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const attemptsMsg = document.getElementById('attempts-msg');
+        const mainContentWrapper = document.querySelector('.main-content-wrapper');
 
-        const passwordGate = document.getElementById('password-gate');
-        const passwordInput = document.getElementById('password-input');
-        const submitButton = document.getElementById('submit-password');
-        const errorMessage = document.getElementById('error-message');
+        // --- Config ---
+        const CORRECT_PASSWORD = "RVX"; 
+        const MAX_ATTEMPTS = 3; 
+        let attempts = 0;
+
+        // --- Core Functions ---
+        function updateAttemptsMessage() {
+            const remaining = MAX_ATTEMPTS - attempts;
+            attemptsMsg.textContent = `Enter the Access Key (${remaining} attempts remaining)`;
+        }
+
+        function finishLoading() {
+            // 1. Loading screen ko gayab karo (fade-out class se)
+            loadingScreen.classList.add('fade-out');
+            
+            // 2. Password gate ko active karo (fade-in)
+            accessGate.classList.add('active');
+            
+            // 3. Password field par focus karo
+            setTimeout(() => {
+                passwordInputModal.focus();
+            }, 800); // Wait for loading fade-out to finish
+        }
 
         function checkPassword() {
-            if (passwordInput.value.trim() === CORRECT_PASSWORD) {
-                // Sahi password: Gate ko chhupa do
-                passwordGate.style.display = 'none';
-                errorMessage.style.visibility = 'hidden';
-                // Apps load karna shuru karo
-                fetchApps(); 
+            const enteredPassword = passwordInputModal.value.trim();
+            
+            accessButton.disabled = true;
+
+            if (enteredPassword === CORRECT_PASSWORD) {
+                // SUCCESS: Green Message and Load Website
+                feedbackMessage.textContent = 'ACCESS GRANTED...';
+                feedbackMessage.classList.remove('denied');
+                feedbackMessage.classList.add('granted');
+                
+                setTimeout(() => {
+                    accessGate.classList.remove('active');
+                    accessGate.classList.add('hidden'); // Password modal fade out
+                    mainContentWrapper.classList.add('loaded'); // Main content fade in
+                }, 800); 
+
+                setTimeout(() => {
+                    // Final removal of the modal
+                    accessGate.style.display = 'none';
+                }, 1600);
+                
             } else {
-                // Galat password: Error dikhao
-                errorMessage.style.visibility = 'visible';
-                passwordInput.value = ''; // Input clear kar do
+                // FAILURE: Red Message and Shake
+                attempts++;
+                passwordInputModal.value = ''; 
+                
+                if (attempts >= MAX_ATTEMPTS) {
+                    // Maximum attempts reached (System Lockdown)
+                    feedbackMessage.textContent = 'SYSTEM LOCKDOWN';
+                    feedbackMessage.classList.remove('granted');
+                    feedbackMessage.classList.add('denied');
+                    accessGate.innerHTML = '<div class="login-box" style="border-color: #FF4747; box-shadow: 0 0 30px #FF4747;"><h2 style="color:#FF4747;"><i class="fas fa-lock"></i> SYSTEM LOCKDOWN</h2><p style="color: #FF4747; font-weight:700;">Maximum access attempts exceeded. Vault is sealed.</p></div>';
+                } else {
+                    // Incorrect password, show error, shake, and update count
+                    feedbackMessage.textContent = `ACCESS DENIED`;
+                    feedbackMessage.classList.remove('granted');
+                    feedbackMessage.classList.add('denied');
+                    
+                    passwordInputModal.classList.add('shake');
+                    setTimeout(() => {
+                        passwordInputModal.classList.remove('shake');
+                    }, 500);
+
+                    updateAttemptsMessage();
+                }
+                
+                accessButton.disabled = false;
             }
         }
 
-        // Button click aur Enter key press par password check karo
-        submitButton.addEventListener('click', checkPassword);
-        passwordInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
-        });
-        
-        // Window load hote hi password field par focus karo
-        window.onload = () => {
-             passwordInput.focus();
-        };
-        // --- End of Password Protection Logic ---
-        
-        // --- Existing App Display Logic ---
+        // --- App Data and Loading Logic ---
         const appList = document.getElementById('app-list');
         const searchInput = document.getElementById('search-input');
         let appsData = []; 
 
         function displayApps(apps) {
+            // Display logic remains the same
             appList.innerHTML = '';
             apps.forEach(app => {
                 const appCard = document.createElement('div');
@@ -284,8 +389,7 @@
                     <p>${app.description}</p>
                     <a href="${app.download_link}" target="_blank" class="download-button">
                         <span class="button-content">
-                            Download Now 
-                            <span class="arrow">&rarr;</span>
+                            <i class="fas fa-download"></i> DOWNLOAD ACCESS
                         </span>
                     </a>
                 `;
@@ -301,29 +405,53 @@
             displayApps(filteredApps);
         }
 
-        // App data fetch karne ka function
         function fetchApps() {
-            fetch('apps.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    appsData = data;
-                    displayApps(appsData); 
-                })
-                .catch(error => {
-                    console.error('Error fetching apps:', error);
-                    appList.innerHTML = '<p style="text-align:center;color:#ff6347;font-family:Montserrat, sans-serif;">⚠️ Apps could not be loaded. Please ensure "apps.json" exists. ⚠️</p>';
-                });
+            // Promise-based fetch to simulate data loading
+            return new Promise((resolve, reject) => {
+                // Simulate a minimum 2-second load time for the animation effect
+                setTimeout(() => {
+                    fetch('apps.json')
+                        .then(response => {
+                            if (!response.ok) {
+                                // Simulate network error on fetch fail
+                                throw new Error('Network response was not ok ' + response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            appsData = data;
+                            displayApps(appsData); 
+                            resolve(); // Resolve the promise on success
+                        })
+                        .catch(error => {
+                            console.error('Error fetching apps:', error);
+                            appList.innerHTML = '<p style="text-align:center;color:#FF4747;font-family:Montserrat, sans-serif; padding-top: 50px;">⚠️ DATA VAULT ERROR: "apps.json" not found or corrupt. Please ensure the file is present. ⚠️</p>';
+                            resolve(); // Resolve the promise even on error so the website still opens
+                        });
+                }, 2000); // 2 second delay
+            });
         }
         
-        // Real-time search functionality
+        // --- Initialization ---
+
+        // 1. Initial event listeners
+        accessButton.addEventListener('click', checkPassword);
+        passwordInputModal.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !accessButton.disabled) {
+                checkPassword();
+            }
+        });
+        
+        updateAttemptsMessage();
         searchInput.addEventListener('input', (e) => {
             filterApps(e.target.value);
         });
+
+        // 2. Start data loading when the page content is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchApps().then(finishLoading); // When data loading is complete, show the password modal
+        });
+        
     </script>
 </body>
 </html>
