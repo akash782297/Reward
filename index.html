@@ -17,6 +17,69 @@
             padding: 20px;
         }
 
+        /* --- New Password Gate Styles --- */
+        #password-gate {
+            position: fixed; /* Poori screen ko cover karega */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0A0A0A; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Sabse upar rahega */
+            text-align: center;
+            padding: 20px;
+        }
+        
+        #password-gate h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #03DAC6; /* Teal color */
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        #password-input {
+            padding: 15px;
+            font-size: 16px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 8px;
+            outline: none;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        #submit-password {
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: #03DAC6;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+        }
+
+        #submit-password:hover {
+            background-color: #00b8a3;
+        }
+        
+        #error-message {
+            color: #FF6347; /* Error ke liye lal rang */
+            margin-top: 15px;
+            visibility: hidden; 
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+        }
+
         /* Logo Styling */
         .logo {
             display: block;
@@ -45,11 +108,10 @@
         }
 
         #search-input:focus {
-            /* Subtle cyan glow */
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.2);
         }
         
-        /* App Grid and Card Styling (Renamed from product- to app- for clarity) */
+        /* App Grid and Card Styling */
         .app-grid {
             display: grid;
             gap: 20px;
@@ -57,12 +119,10 @@
             margin: 0 auto;
         }
         
-        /* Default: Ek row mein ek app (mobile-first approach) */
         .app-grid {
             grid-template-columns: 1fr;
         }
         
-        /* Tablets and Desktops: Ek row mein do apps */
         @media (min-width: 600px) {
             .app-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -94,7 +154,6 @@
             margin-bottom: 5px;
             font-size: 1.6rem;
             color: #fff;
-            /* Montserrat for headings (more impact) */
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
         }
@@ -102,18 +161,17 @@
         .app-card p {
             margin: 5px 0 15px;
             color: #B0B0B0;
-            /* Lato for body text */
             font-family: 'Lato', sans-serif;
             font-weight: 300;
         }
 
-        /* Download Button Styling (with arrow animation) - Same style, just different text */
+        /* Download Button Styling */
         .download-button {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #03DAC6; /* Changed color for differentiation (Teal) */
-            color: #000; /* Black text for contrast */
+            background-color: #03DAC6; 
+            color: #000; 
             padding: 12px;
             text-align: center;
             text-decoration: none;
@@ -121,24 +179,22 @@
             transition: background-color 0.3s ease;
             outline: none;
             font-family: 'Montserrat', sans-serif;
-            font-weight: 700; /* Bolder text for CTA */
+            font-weight: 700; 
             letter-spacing: 0.5px; 
             overflow: hidden;
             position: relative; 
         }
 
         .download-button:hover {
-            background-color: #00b8a3; /* Darker teal on hover */
+            background-color: #00b8a3; 
         }
 
-        /* Style for the text/content wrapper */
         .button-content {
             display: flex;
             align-items: center;
             transition: transform 0.3s ease;
         }
 
-        /* Style for the arrow icon */
         .button-content .arrow {
             margin-left: 8px;
             font-size: 1.2em;
@@ -146,7 +202,6 @@
             display: inline-block;
         }
 
-        /* Animation on Hover */
         .download-button:hover .button-content {
             transform: translateX(-5px); 
         }
@@ -158,6 +213,13 @@
 </head>
 <body>
 
+    <div id="password-gate">
+        <h2>🔒 Exclusive Access Required</h2>
+        <input type="password" id="password-input" placeholder="Password (Hint: what you are for me)">
+        <button id="submit-password">Unlock</button>
+        <p id="error-message">❌ Incorrect Password. Please check the hint.</p>
+    </div>
+
     <div class="header">
         <img src="https://i.ibb.co/5h7Fj21W/Picsart-25-09-26-17-22-46-288.png" class="logo" alt="App Store Logo">
     </div>
@@ -167,19 +229,54 @@
     </div>
 
     <div class="app-grid" id="app-list"> 
-        </div>
+    </div>
 
     <script>
+        // --- Password Protection Logic ---
+        const CORRECT_PASSWORD = "followers"; // ✅ Aapka set kiya hua password
+
+        const passwordGate = document.getElementById('password-gate');
+        const passwordInput = document.getElementById('password-input');
+        const submitButton = document.getElementById('submit-password');
+        const errorMessage = document.getElementById('error-message');
+
+        function checkPassword() {
+            if (passwordInput.value.trim() === CORRECT_PASSWORD) {
+                // Sahi password: Gate ko chhupa do
+                passwordGate.style.display = 'none';
+                errorMessage.style.visibility = 'hidden';
+                // Apps load karna shuru karo
+                fetchApps(); 
+            } else {
+                // Galat password: Error dikhao
+                errorMessage.style.visibility = 'visible';
+                passwordInput.value = ''; // Input clear kar do
+            }
+        }
+
+        // Button click aur Enter key press par password check karo
+        submitButton.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+        
+        // Window load hote hi password field par focus karo
+        window.onload = () => {
+             passwordInput.focus();
+        };
+        // --- End of Password Protection Logic ---
+        
+        // --- Existing App Display Logic ---
         const appList = document.getElementById('app-list');
         const searchInput = document.getElementById('search-input');
-        let appsData = []; // To store data from the JSON file
+        let appsData = []; 
 
-        // Function to create and display app cards (Modified)
         function displayApps(apps) {
             appList.innerHTML = '';
             apps.forEach(app => {
                 const appCard = document.createElement('div');
-                // Updated class name
                 appCard.className = 'app-card'; 
                 appCard.innerHTML = `
                     <img src="${app.image_url}" alt="${app.name} icon">
@@ -196,7 +293,6 @@
             });
         }
 
-        // Function to filter apps based on search query (Modified)
         function filterApps(query) {
             const filteredApps = appsData.filter(app =>
                 app.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -205,28 +301,29 @@
             displayApps(filteredApps);
         }
 
-        // Add event listener for real-time search
+        // App data fetch karne ka function
+        function fetchApps() {
+            fetch('apps.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    appsData = data;
+                    displayApps(appsData); 
+                })
+                .catch(error => {
+                    console.error('Error fetching apps:', error);
+                    appList.innerHTML = '<p style="text-align:center;color:#ff6347;font-family:Montserrat, sans-serif;">⚠️ Apps could not be loaded. Please ensure "apps.json" exists. ⚠️</p>';
+                });
+        }
+        
+        // Real-time search functionality
         searchInput.addEventListener('input', (e) => {
             filterApps(e.target.value);
         });
-
-        // Fetch data from new JSON file: 'apps.json'
-        fetch('apps.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                appsData = data;
-                displayApps(appsData); // Initial display of all apps after loading data
-            })
-            .catch(error => {
-                console.error('Error fetching apps:', error);
-                // Show a user-friendly error message, adjusted for app data
-                appList.innerHTML = '<p style="text-align:center;color:#ff6347;font-family:Montserrat, sans-serif;">⚠️ Apps could not be loaded. Please ensure "apps.json" exists in the same folder. ⚠️</p>';
-            });
     </script>
 </body>
 </html>
