@@ -2,19 +2,14 @@
     {
         "name": "SMS,CALL-BOMBER",
         "description": "These kinds of applications (WhatsApp msg bomber, SMS bomber, call bomber, mix bomber) are generally designed to send a very large number of messages or calls to a target number in a short amount of time.",
-        "image_urlapps.json": "https://i.ibb.co/jPxQ8y3s/Screenshot-2025-0927-233430.png",
-        "download_link": "https://drive.google.com/file/d/1t-dJYpE50DGLiw5j4a7S8_9UW3VJ2VRG/view"
+        "image_url": "https://i.ibb.co/jPxQ8y3s/Screenshot-2025-0927-233430.png",
+        "download_link": "#https://drive.google.com/file/d/1t-dJYpE50DGLiw5j4a7S8_9UW3VJ2VRG/view"
     },
-    
     {
         "name": "Moviebox",
-        "description": "unlimited entertainment without spending a single rupee!
-Ab cinema ka mazaa aapke mobile screen par, bilkul free.",
-        "image_urlapps.json": "https://dxbapps.com/blogimages/moviebox-logo.webp",
+        "description": "All movies exclusive content are here on free.",
+        "image_url": "https://dxbapps.com/blogimages/moviebox-logo.webp",
         "download_link": "https://drive.google.com/file/d/1RkmEaJ2WMXoI8GG-QnXCJ7G8wgtffhK-/view?usp=drivesdk"
     }
-    
-    
-    
-    
+
 ]
